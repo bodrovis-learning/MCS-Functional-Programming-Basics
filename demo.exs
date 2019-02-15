@@ -1,13 +1,13 @@
 defmodule Demo do
-  def my_func(b) do
-    (b + 2) |> mult |> division(2)
+  def division(arg), do: division(arg, 2) # /1
+
+  def division(_arg, 0) do
+    "Infinity"
   end
 
-  def mult(arg) do
-    arg * 2
+  def division(arg, d) do # /2
+    arg / d
   end
-
-  def division(arg, d), do: arg / d
 end
 
-Demo.my_func(3) |> IO.inspect
+Demo.division(4, 0) |> IO.inspect
