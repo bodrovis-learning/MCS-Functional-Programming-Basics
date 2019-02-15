@@ -1,13 +1,14 @@
 defmodule Demo do
-  def division(arg), do: division(arg, 2) # /1
-
-  def division(_arg, 0) do
-    "Infinity"
+  def fact(n) when n < 0 or not is_integer(n) do
+    "The argument #{n} is invalid!"
   end
 
-  def division(arg, d) do # /2
-    arg / d
+  def fact(0), do: 1
+
+  def fact(n) do
+    n * fact(n - 1)
   end
 end
 
-Demo.division(4, 0) |> IO.inspect
+Demo.fact("sdfsdfsdf") |> IO.inspect
+# 1 * 2 * 3 * 4 * 5
