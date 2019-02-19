@@ -1,14 +1,18 @@
 defmodule Demo do
-  def fact(n) when n < 0 or not is_integer(n) do
-    "The argument #{n} is invalid!"
-  end
+  def run(list) do
+    printer = fn
+      {name, number} -> # body 1
+        "#{name} is #{number}" |> IO.puts
+      str -> # body 2
+        str |> IO.inspect
+      _ -> # fallback
+        IO.inspect "fallback!"
+    end
 
-  def fact(0), do: 1
-
-  def fact(n) do
-    n * fact(n - 1)
+    #Enum.each list, fn(str) -> str |> IO.inspect end
+    Enum.each list, printer
   end
 end
 
-Demo.fact("sdfsdfsdf") |> IO.inspect
-# 1 * 2 * 3 * 4 * 5
+Demo.run [1,2,3,4,5]
+Demo.run [{:a, 1}, {:b, 2}, {:c, 3}, {:d, 4}, {:e, 5}]
