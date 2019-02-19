@@ -1,14 +1,12 @@
 defmodule Demo do
   def run(arg) do
-    if arg > 3 do
-      arg = arg * 2
-      arg + 2
-    #else
-    #  arg = arg / 2
-    #  arg + 10
+    cond do
+      arg > 2 -> IO.puts "greater!"
+      arg < 2 -> IO.puts "lesser!"
+      #arg == 2 -> IO.puts "equal!"
+      # Fallback:
+      true -> IO.puts "equal!"
     end
-
-    if arg > 3, do: arg + 2 #, else: arg + 10
   end
 end
 
