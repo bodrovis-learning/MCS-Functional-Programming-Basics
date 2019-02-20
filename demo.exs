@@ -1,6 +1,5 @@
 defmodule Demo do
   def traverse([]), do: :ok
-
   def traverse([head | tail]) do
     head |> IO.inspect
 
