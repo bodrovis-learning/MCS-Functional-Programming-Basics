@@ -1,17 +1,14 @@
 defmodule Demo do
-  def run(filename) do
-    printer = fn({contents, line_num}) ->
-      :timer.sleep 500
-      IO.puts "#{line_num} \t #{contents}"
-    end
+  require Integer
 
-    #File.open!(filename) |>
-    #IO.stream(:line) |>
-    File.stream!(filename) |>
-    Stream.map(&( String.replace(&1, "\n", "") )) |>
-    Stream.with_index |>
-    Enum.each(printer)
+  def run do
+    for {name, salary} <- [ {:joe, 1000}, {:ann, 500} ], y <- 1..10, #x < y, Integer.is_even(y),
+    into: %{} do
+      { name, salary * y}
+    end
   end
 end
 
-Demo.run "demo.exs"
+#mult = Demo.run
+#mult[{5,6}] |> IO.inspect
+Demo.run  |> IO.inspect
