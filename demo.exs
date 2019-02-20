@@ -1,25 +1,18 @@
 defmodule Demo do
-  def traverse([]), do: :ok
-  def traverse([head | tail]) do
-    head |> IO.inspect
+  def fact(n), do: do_fact 1, n
 
-    tail |> traverse
+  defp do_fact(total, n) when n < 1, do: total
+  defp do_fact(total, n) do
+    total * n |> do_fact(n - 1)
   end
 
-  def map([], _fun), do: []
+  def mult(list), do: do_mult(1, list)
 
-  def map([head | tail], fun) do
-    [ fun.(head) | map(tail, fun) ]
-    # [ 1 * 2 | [ 2 * 2 | [ 3 * 2 ] | [] ] ]
-  end
-
-  def mult([]), do: 1
-
-  def mult([head | tail]) do
-    head * mult(tail)
+  defp do_mult(result, []), do: result
+  defp do_mult(result, [head | tail]) do
+    result * head |> do_mult(tail)
   end
 end
 
-#Demo.traverse([1,2,3,4,5]) |> IO.inspect
-#Demo.map([1,2,3,4,5], &( &1 * 2 )) |> IO.inspect
-Demo.mult([1,2,3,4,5]) |> IO.inspect
+#Demo.fact(100) |> IO.inspect
+Demo.mult([1,2,3,4]) |> IO.inspect
