@@ -1,16 +1,26 @@
 defmodule Demo do
-  def run(filename) do
-    printer = fn(str) ->
-      :timer.sleep 500
-      str |> IO.puts
-    end
+  def traverse([]), do: :ok
 
-    case File.read(filename) do
-      {:ok, content} ->
-        content |> String.split("\n") |> Enum.each(printer)
-      {:error, reason} -> IO.puts "Error! #{reason}"
-    end
+  def traverse([head | tail]) do
+    head |> IO.inspect
+
+    tail |> traverse
+  end
+
+  def map([], _fun), do: []
+
+  def map([head | tail], fun) do
+    [ fun.(head) | map(tail, fun) ]
+    # [ 1 * 2 | [ 2 * 2 | [ 3 * 2 ] | [] ] ]
+  end
+
+  def mult([]), do: 1
+
+  def mult([head | tail]) do
+    head * mult(tail)
   end
 end
 
-Demo.run("demo.exs") |> IO.inspect
+#Demo.traverse([1,2,3,4,5]) |> IO.inspect
+#Demo.map([1,2,3,4,5], &( &1 * 2 )) |> IO.inspect
+Demo.mult([1,2,3,4,5]) |> IO.inspect
