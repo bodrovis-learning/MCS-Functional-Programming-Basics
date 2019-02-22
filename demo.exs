@@ -1,23 +1,32 @@
-defmodule Demo do
-  def work(i) do
-    spawn(fn ->
-      fact(10) |> IO.inspect(label: "#{i} Result is")
-    end) |> IO.inspect
-  end
-
-  def run do
-    Enum.each 1..5, &( work(&1) )
-  end
-
-  def fact(n) do
-    :timer.sleep 5000
-    do_fact(1, n)
-  end
-  defp do_fact(result, n) when n < 1, do: result
-  defp do_fact(result, n) do
-    result * n |> do_fact(n - 1)
+defmodule Worker do
+  def work do
+    IO.puts "worker..."
+    receive do
+      {:add, a, b, sender} -> send sender, a + b
+      _ -> IO.puts "Not sure how to process this message..."
+    end
+    IO.puts "ending worker..."
   end
 end
 
-Demo.run |> IO.inspect
-IO.puts "Doing some other work...."
+defmodule Demo do
+  def run do
+    pid = spawn Worker, :work, []
+    send pid, {:add, 1, 2, self()}
+
+    response = receive do
+      response -> response
+    end
+
+    IO.puts "Response is #{response}"
+
+    send pid, {:add, 1, 2, self()}
+
+    response = receive do
+      response -> response
+    after 5000 -> IO.puts "No response :("
+    end
+  end
+end
+
+Demo.run
