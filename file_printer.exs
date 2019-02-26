@@ -17,4 +17,4 @@ defmodule Demo do
   end
 end
 
-Demo.run "demo.exs"
+Demo.run "file_printer.exs"
