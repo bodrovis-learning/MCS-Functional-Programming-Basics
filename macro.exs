@@ -1,13 +1,27 @@
-# Написать макрос unless, работающий следующим образом:
-MyModule.unless 1 + 1 == 2 do
-  1 + 2
-else
-  3 + 4
+defmodule MyModule do
+  defmacro unless(condition, clauses) do
+    false_clause = Keyword.get clauses, :do, nil
+    true_clause = Keyword.get clauses, :else, nil
+    quote do
+      if unquote(condition) do
+        unquote(true_clause)
+      else
+        unquote(false_clause)
+      end
+    end
+  end
 end
 
-# Подсказки: операции из do и else можно получать с помощью Keyword.get:
-true_clause = Keyword.get clauses, :do, nil
-false_clause = Keyword.get clauses, :else, nil
+defmodule Demo do
+  require MyModule
 
-# Не забывайте о трюке:
-!!condition
+  def run do
+    MyModule.unless true do
+      IO.puts "THE CONDITION IS FALSE! 1 + 1  is not 2"
+    else
+      IO.puts "THE CONDITION IS TRUE! 1 + 1 is 2"
+    end
+  end
+end
+
+Demo.run
